@@ -50,4 +50,16 @@ class RecipeNavigationTest {
         compose.onNodeWithText("待确认").assertIsDisplayed()
         compose.onNodeWithText("炒熟后调味").performScrollTo().assertIsDisplayed()
     }
+
+    @Test fun bilibiliImportRunsIndependentDemoPipeline() {
+        compose.onNodeWithText("增加菜谱").performScrollTo().performClick()
+        compose.onNodeWithText("导入菜谱").performClick()
+        compose.onNodeWithText("链接 / 分享文字").performTextInput("https://b23.tv/demo")
+        compose.onNodeWithText("生成演示菜谱").performScrollTo().performClick()
+        compose.waitUntil(timeoutMillis = 10_000) {
+            compose.onAllNodesWithText("番茄炒蛋（示例菜谱）").fetchSemanticsNodes().isNotEmpty()
+        }
+        compose.onNodeWithText("演示流程：", substring = true).assertIsDisplayed()
+        compose.onNodeWithText("2 个").assertIsDisplayed()
+    }
 }

@@ -35,7 +35,7 @@ fun CreationDialog(method: CreationMethod, state: RecipeUiState, model: RecipeVi
                     }, 22)
                     when (method) {
                         CreationMethod.IMPORT -> {
-                            RecipeText("粘贴小红书或 Instagram 分享链接。当前为模拟分析；照片和文件识别尚未接入。", color = RecipeColors.Muted)
+                            RecipeText("粘贴小红书、Bilibili、TikTok 或 Instagram 链接。当前演示内容获取、媒体准备和 VLM 分析流程，不会访问链接或调用模型。", color = RecipeColors.Muted)
                             OutlinedTextField(state.input, model::setInput, Modifier.fillMaxWidth(), enabled = !state.loading,
                                 label = { Text("链接 / 分享文字") }, minLines = 3)
                             TextButton(onClick = { model.setInput("https://www.xiaohongshu.com/explore/demo") }, enabled = !state.loading) { Text("填入示例链接") }

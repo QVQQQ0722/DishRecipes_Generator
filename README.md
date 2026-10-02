@@ -1,13 +1,17 @@
 # 拾味 · Android 菜谱导入原型
 
-将小红书 / Instagram 分享链接整理成食材与做法的 Android 工程框架。
+项目共识与新对话入口：[PROJECT.md](PROJECT.md)。质量验收：[25 条手工 eval](docs/EVALS.md)。能力或决策变化时同步更新，未完成项明确标记。
+
+将小红书 / Bilibili / TikTok / Instagram 分享链接整理成食材与做法的 Android 工程框架。当前支持链接识别，内容获取与 VLM 分析仍为演示。
 
 **当前是演示原型**：按 Figma 实现主菜单、添加方式、菜谱详情。支持三个创建入口、会话内手动添加、模拟导入和模拟 AI 生成；没有真实抓取、AI 分析、媒体上传或持久化。
 
 ## 开发 Prompt 与待办
+- [交付里程碑](docs/MILESTONES.md)：V1 截止 2026-10-31 的周目标、状态与验收；V2/V3 阶段目标。
+- [Python 导入服务与逐步运行说明](backend/README.md)：独立三个接口、固定示例、可替换模型与 HTTP 入口；当前默认演示，尚未接 Android。
 - [完整开发 Prompt](docs/DEVELOPMENT_PROMPT.md)：可复制给后续开发助手。
 - [TODO](docs/TODO.md)：按 P0–P3 分阶段推进。
-- [架构与 API 草案](docs/ARCHITECTURE.md)：后端异步任务和多模态结果设计。
+- [分层架构与实施路线](docs/ARCHITECTURE.md)：分层图、职责与接口边界、V1–V3 和 A–G 分段验收。
 
 ## 本地运行
 1. 安装 Android Studio，准备 JDK 17、Android SDK Platform 35 和 SDK Build Tools。
@@ -31,6 +35,7 @@ app/src/main/java/com/example/recipeimport/
   RecipeRepository.kt      分析接口与演示实现
   Recipe.kt                数据模型与 URL 校验
   DemoRecipes.kt           示例菜谱与手动输入解析
+  importrecipe/            独立导入流程、混合媒体模型、可替换接口与演示实现
   ui/                      页面、主题、卡片/食材/步骤组件
 app/src/main/res/          Figma 原图、矢量图标、Inter 字体
 app/src/test/              链接解析、导航与创建流程测试
@@ -41,3 +46,5 @@ docs/                     Prompt、架构、TODO
 本机环境配置和验证结果见 [本地开发环境](docs/LOCAL_SETUP.md)。
 
 设计映射和适配说明见 [Figma 实现记录](docs/FIGMA_IMPLEMENTATION.md)。连接安卓设备后可运行 `.\gradlew.bat connectedDebugAndroidTest`；静态检查运行 `.\gradlew.bat lintDebug`。
+
+初学者可先看 [导入流程逐步指南](docs/IMPORT_FLOW_GUIDE.md)，再看 [独立模块说明](app/src/main/java/com/example/recipeimport/importrecipe/README.md)。Android Studio 界面预览入口是 `RecipePreviews.kt`，不是 MainActivity。

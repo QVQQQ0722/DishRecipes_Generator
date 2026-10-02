@@ -1,0 +1,16 @@
+{
+  "title": "番茄炒蛋",
+  "servings": null,
+  "ingredients": [
+    {"name": "番茄", "amount": "2 个", "evidence_ids": ["text-1"]},
+    {"name": "鸡蛋", "amount": "3 个", "evidence_ids": ["text-1"]},
+    {"name": "食用油", "amount": null, "evidence_ids": ["text-1"]},
+    {"name": "盐", "amount": null, "evidence_ids": ["text-1"]}
+  ],
+  "steps": [
+    {"instruction": "番茄切块，鸡蛋打散。", "evidence_ids": ["text-1"]},
+    {"instruction": "锅中放油，倒入蛋液炒至凝固后盛出。", "evidence_ids": ["text-1"]},
+    {"instruction": "番茄炒至出汁，加入鸡蛋和盐，翻炒均匀出锅。", "evidence_ids": ["text-1"]}
+  ],
+  "warnings": ["原文未提供油、盐用量和份数，请自行确认。"]
+}

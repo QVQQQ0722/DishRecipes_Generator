@@ -37,5 +37,5 @@ adb version
 - Gradle Wrapper 生成成功。
 - SDK Platform 35、Build Tools 35.0.0 安装完成，adb version 验证通过。
 - 用户级 JAVA_HOME、ANDROID_HOME 和 PATH 已配置。
-- Figma 界面更新后：13 个单元测试与 2 个真机界面测试通过，assembleDebug 和 lintDebug 通过。
+- 独立导入模块更新后：22 个单元测试与 3 个真机界面测试通过，assembleDebug 和 lintDebug 通过。
 - 已在 PLK110 / Android 16 真机运行并截图核对三个页面；尚未安装模拟器系统镜像。

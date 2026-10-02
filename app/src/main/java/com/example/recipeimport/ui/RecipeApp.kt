@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.example.recipeimport.*
@@ -24,7 +25,9 @@ import com.example.recipeimport.R
 @Composable
 fun RecipeApp(state: RecipeUiState, model: RecipeViewModel) {
     RecipeTheme {
-        BackHandler(state.screen != RecipeScreen.MENU || state.method != null, model::back)
+        if (!LocalInspectionMode.current) {
+            BackHandler(state.screen != RecipeScreen.MENU || state.method != null, model::back)
+        }
         Surface(Modifier.fillMaxSize(), color = RecipeColors.Background) {
             Box(Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)),
                 contentAlignment = Alignment.TopCenter) {

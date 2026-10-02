@@ -5,3 +5,10 @@ local.properties
 *.iml
 .kotlin/
 artifacts/
+**/.venv/
+**/__pycache__/
+**/.pytest_cache/
+**/pytest-cache-files-*/
+**/.env
+**/.env.local
+backend/outputs/

@@ -2,6 +2,8 @@ package com.example.recipeimport
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.recipeimport.importrecipe.ImportFeature
+import com.example.recipeimport.importrecipe.RecipeImportException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -25,8 +27,9 @@ data class RecipeUiState(
     val savedOnly: Boolean = false,
 )
 
-class RecipeViewModel : ViewModel() {
-    private val repository: RecipeRepository = DemoRecipeRepository()
+class RecipeViewModel(
+    private val repository: RecipeRepository = ImportFeature.createDemoRepository(),
+) : ViewModel() {
     private val mutableState = MutableStateFlow(RecipeUiState())
     val state = mutableState.asStateFlow()
     private var job: Job? = null
@@ -69,6 +72,7 @@ class RecipeViewModel : ViewModel() {
             try {
                 finish(repository.analyze(source) { progress -> mutableState.update { it.copy(progress = progress) } })
             } catch (e: CancellationException) { throw e }
+            catch (e: RecipeImportException) { mutableState.update { it.copy(loading = false, error = e.message) } }
             catch (e: Exception) { mutableState.update { it.copy(loading = false, error = "分析失败，请重试。") } }
         }
     }
