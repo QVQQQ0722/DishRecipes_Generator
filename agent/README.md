@@ -33,6 +33,26 @@ For real runs, fill in the Foundry endpoint, key and two deployment names in `.e
 | `python -m app.cli "番茄炒蛋" "Caesar salad"` | Day 2: run dish names, save `01_request` → `05_response` under `outputs/` |
 | `python -m evals.run_eval` | Day 5: 20 dishes + 2 non-food inputs; pass/fail, p50/p95 latency, tokens, searches |
 
+## Visualize the graph (LangGraph Studio)
+
+`app/graph/studio.py` is the same graph plus a first node, `prepare_request`, that turns Studio's input
+form (dish, servings, allergies, dislikes) into a `GenerateRequest`. It reads the model settings from `.env`.
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -U "langgraph-cli[inmem]" "langgraph-api>=0.15"
+$env:PYTHONUTF8 = 1
+.\.venv\Scripts\langgraph.exe dev
+```
+
+`PYTHONUTF8` is required on Windows with a non-UTF-8 system locale (e.g. Chinese/GBK); without it the
+server fails at startup with `UnicodeDecodeError: 'gbk' codec can't decode`. Install with `requirements.txt`
+already applied: its FastAPI upper bound keeps the two installs compatible.
+
+The browser opens https://smith.langchain.com/studio/?baseUrl=http://127.0.0.1:2024 (free LangSmith sign-in).
+Every Studio run calls the real model and web search; `MOCK` does not apply. With `LANGSMITH_TRACING=false`
+in `.env`, runs stay on this machine. "Deserializing unregistered type app.schemas..." warnings in the
+terminal are expected.
+
 ## Layout (plan module → code)
 
 ```text

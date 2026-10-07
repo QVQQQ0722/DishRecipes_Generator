@@ -20,16 +20,23 @@ from app.schemas import Classification, ErrorInfo, GenerateRequest, GenerateResp
 Trace = Callable[[str, str], None]
 
 
-def build_graph():
-    builder = StateGraph(State)
+def add_recipe_nodes(builder: StateGraph, after: str = START) -> None:
+    """Adds the M1 nodes and edges, entered from `after`. Shared by the API graph and app/graph/studio.py."""
     for node in (classify, web_research, synthesize, validate):
         builder.add_node(node.__name__, node)
-    builder.add_edge(START, "classify")
-    builder.add_conditional_edges("classify", lambda state: END if state.get("error") else "web_research")
+    builder.add_edge(after, "classify")
+    builder.add_conditional_edges("classify", lambda state: END if state.get("error") else "web_research",
+                                  ["web_research", END])
     builder.add_edge("web_research", "synthesize")
     builder.add_edge("synthesize", "validate")
     builder.add_conditional_edges(
-        "validate", lambda state: "synthesize" if state["problems"] and not state.get("error") else END)
+        "validate", lambda state: "synthesize" if state["problems"] and not state.get("error") else END,
+        ["synthesize", END])
+
+
+def build_graph():
+    builder = StateGraph(State)
+    add_recipe_nodes(builder)
     return builder.compile()
 
 

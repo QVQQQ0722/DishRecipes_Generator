@@ -13,4 +13,4 @@ artifacts/
 **/.env.local
 backend/outputs/
 agent/outputs/
-
+**/.langgraph_api/
