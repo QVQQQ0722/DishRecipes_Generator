@@ -1,0 +1,10 @@
+{
+  "schema_version": "0.1",
+  "run_id": "run_01JB7S",
+  "status": "failed",
+  "classification": { "type": "dish", "normalized_name": "Kung pao chicken" },
+  "recipe": null,
+  "sources": [],
+  "usage": { "latency_ms": 21000, "input_tokens": 36000, "output_tokens": 4200, "search_requests": 3 },
+  "error": { "code": "VALIDATION_FAILED", "message": "ingredient 'Roasted peanuts' conflicts with allergy 'peanut'" }
+}

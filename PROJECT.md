@@ -39,6 +39,8 @@
 
 **Agent 接入方向**：优先验证 OpenAI Agents API（托管循环 + Python 工具/校验）；目前仅完成[技术评估](docs/AGENTS_API_ASSESSMENT.md)，未接入真实 API。图片、结构化菜谱、权限及会话取消须先验证。
 
+**Agent 服务（2026-10-05）**：Agent 服务的设计以 [AGENT\_SERVICE\_PLAN](docs/AGENT_SERVICE_PLAN.md) 为准（LangGraph + Azure，菜名输入起步，过敏信息随请求传入并由代码校验）。它与上面的 Agents API 方向、V1 输入范围和 V3 个性化边界的冲突尚未在本文件及 ARCHITECTURE/MILESTONES 统一，待定。已有独立 [agent/](agent/README.md) M0–M1 起步代码：契约 v0 与示例、FastAPI（/v1/recipes:generate 含 SSE、/healthz、X-Api-Key、MOCK=1）、四节点流程与一次修复重试、过敏原代码检查、CLI、20 题 eval 脚本。仅用固定回复验证（16 项测试）；未调用真实 Azure 模型或联网搜索，未部署，无追踪，未与 backend/Android 联通。
+
 1. **密钥**：只放 Python 服务端环境变量；不进入 App、Git、日志。
 2. **工具**：主流程保留 PostExtractor → MediaPreparer → VlmRecipeAnalyzer；新增知识检索/外部补充能力，代码负责编排与校验，不让模型无限循环调用工具。Agent构建工具与实际VLM模型是不同选择，当前均未完成真实接入。
 3. **数据**：当前 Android 菜谱只在内存，退出进程丢失；Python CLI 记录在本机 backend/outputs，HTTP 尚无阶段日志。V1/V2 实现手机本地持久保存，V3 才做账号与云同步；服务端处理用户提交的素材。未选择的相册、通讯录及其他 App 私有数据不出设备。素材/反馈保留期限、删除机制、供应商数据策略待定。

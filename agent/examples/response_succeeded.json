@@ -1,0 +1,29 @@
+{
+  "schema_version": "0.1",
+  "run_id": "run_01JB7Q",
+  "status": "succeeded",
+  "classification": { "type": "dish", "normalized_name": "Tomato and egg stir-fry" },
+  "recipe": {
+    "title": "Tomato and Egg Stir-Fry",
+    "servings": 2,
+    "times": { "prep_min": 10, "cook_min": 8, "total_min": 18, "origin": "estimated" },
+    "ingredients": [
+      { "id": "egg", "name": "Large eggs", "quantity": 4, "unit": "count", "origin": "extracted", "source_ids": ["s1", "s2"] },
+      { "id": "tomato", "name": "Ripe tomatoes", "quantity": 2, "unit": "count", "prep": "cut into wedges", "origin": "extracted", "source_ids": ["s1"] },
+      { "id": "oil", "name": "Neutral oil", "quantity": 2, "unit": "tbsp", "origin": "estimated", "source_ids": [] },
+      { "id": "salt", "name": "Salt", "quantity": null, "unit": "to_taste", "origin": "estimated", "source_ids": [] }
+    ],
+    "steps": [
+      { "order": 1, "instruction": "Beat the eggs with a pinch of salt.", "ingredients_used": [{ "ingredient_id": "egg", "quantity": 4, "unit": "count" }, { "ingredient_id": "salt", "quantity": null, "unit": "to_taste" }], "duration_min": 1, "tip": "Beat until no streaks of white remain." },
+      { "order": 2, "instruction": "Scramble the eggs in hot oil until just set, then set aside.", "ingredients_used": [{ "ingredient_id": "oil", "quantity": 2, "unit": "tbsp" }], "duration_min": 2 },
+      { "order": 3, "instruction": "Cook the tomatoes until juicy, return the eggs and toss.", "ingredients_used": [{ "ingredient_id": "tomato", "quantity": 2, "unit": "count" }], "duration_min": 5 }
+    ],
+    "warnings": ["Checked against your allergies: no peanut ingredients. Always check product labels."]
+  },
+  "sources": [
+    { "id": "s1", "kind": "web", "title": "Example source 1", "url": "https://example.com/tomato-egg-1" },
+    { "id": "s2", "kind": "web", "title": "Example source 2", "url": "https://example.com/tomato-egg-2" }
+  ],
+  "usage": { "latency_ms": 14200, "input_tokens": 18400, "output_tokens": 2100, "search_requests": 3 },
+  "error": null
+}

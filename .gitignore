@@ -12,3 +12,5 @@ artifacts/
 **/.env
 **/.env.local
 backend/outputs/
+agent/outputs/
+

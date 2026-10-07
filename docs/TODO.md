@@ -13,6 +13,14 @@ V1 目标 2026-10-31；周目标及 DONE/WIP/TODO 统一维护在 [MILESTONES](M
 - [x] PROJECT、分层架构、25 条手工 eval 和维护规则。
 - [x] 此前验证：Android 22 单测 + 3 真机测试；Python 14 测试 + HTTP 冒烟。
 
+## Agent 服务（设计以 [AGENT_SERVICE_PLAN](AGENT_SERVICE_PLAN.md) 为准）
+- [ ] 把该方案与 PROJECT/ARCHITECTURE/MILESTONES 中的 Agents API 方向、V1 输入范围统一；回答方案末尾的开放问题。
+- [x] agent/ M0–M1 起步代码：契约 v0 与示例、FastAPI + MOCK=1、四节点流程、校验与一次修复重试、过敏原检查、CLI、eval 脚本；16 项测试均为固定回复。
+- [ ] 与队友确认契约 v0；backend 调用 MOCK 接口并解析。
+- [ ] 建 Foundry 项目并部署 mini/nano 模型；跑 app.smoke 与 10 个菜名，核对 web_search 引用和结构化输出。
+- [ ] Dockerfile、Container Apps 内部入口 + Key Vault、OpenTelemetry 追踪。
+- [ ] 跑 20 题 eval，记录 p50/p95 延迟、tokens、搜索次数与单次成本。
+
 ## V1：两人 demo，功能与准确优先
 - [ ] W1.2：按[Agents API 评估](AGENTS_API_ASSESSMENT.md)先验证文本 → 图片 → 知识工具 → 契约/超时/取消；再注册可替换适配器与接 Android。评估已写，真实调用未做。
 - [ ] W1.1：完成字段/完整响应样例与Android展示审阅；英文及冲突推荐/确认保存已认可，equipment/notes按可选；尚未改运行契约。
