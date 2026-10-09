@@ -106,6 +106,8 @@ class Usage(Contract):
     input_tokens: int = 0
     output_tokens: int = 0
     search_requests: int = 0
+    # Node name → milliseconds, summed when a node runs twice (repair retry). Includes a node that failed.
+    step_latency_ms: dict[str, int] = Field(default_factory=dict)
 
 
 class ErrorInfo(Contract):

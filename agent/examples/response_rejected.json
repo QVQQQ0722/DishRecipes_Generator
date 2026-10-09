@@ -5,6 +5,7 @@
   "classification": { "type": "not_food", "normalized_name": null },
   "recipe": null,
   "sources": [],
-  "usage": { "latency_ms": 900, "input_tokens": 180, "output_tokens": 20, "search_requests": 0 },
+  "usage": { "latency_ms": 900, "input_tokens": 180, "output_tokens": 20, "search_requests": 0,
+             "step_latency_ms": { "classify": 880 } },
   "error": { "code": "NOT_A_RECIPE", "message": "Only cooking content is supported; please provide a dish name." }
 }

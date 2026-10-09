@@ -19,6 +19,14 @@
   {"dish": "Mashed potatoes", "must_have": [["potato"], ["butter"]]},
   {"dish": "Chicken noodle soup", "must_have": [["chicken"], ["noodle"]]},
   {"dish": "Chocolate chip cookies", "must_have": [["flour"], ["chocolate"], ["butter"]]},
+  {"dish": "宫保鸡丁", "profile": {"allergies": ["peanut"]}, "must_have": [["chicken"]], "must_not_have": ["peanut", "groundnut"]},
+  {"dish": "Pad thai", "profile": {"allergies": ["peanut", "shellfish"], "dislikes": ["cilantro"]}, "must_have": [["noodle"]], "must_not_have": ["peanut", "shrimp", "prawn", "cilantro", "coriander"]},
+  {"dish": "Hummus", "profile": {"allergies": ["sesame"]}, "must_have": [["chickpea", "garbanzo"]], "must_not_have": ["sesame", "tahini"]},
+  {"dish": "Pesto pasta", "profile": {"allergies": ["tree nut"]}, "must_have": [["basil"], ["pasta", "spaghetti", "linguine", "penne", "fusilli"]], "must_not_have": ["pine nut", "walnut", "almond", "cashew", "pistachio"]},
+  {"dish": "Caesar salad", "profile": {"allergies": ["fish"]}, "must_have": [["romaine", "lettuce"]], "must_not_have": ["anchov", "worcestershire", "fish sauce"]},
+  {"dish": "Guacamole", "profile": {"dislikes": ["cilantro"]}, "must_have": [["avocado"]], "must_not_have": ["cilantro", "coriander"]},
+  {"dish": "蛋炒饭", "profile": {"dislikes": ["scallion"]}, "must_have": [["rice"], ["egg"]], "must_not_have": ["scallion", "green onion", "spring onion"]},
+  {"dish": "Beef stew", "profile": {"dislikes": ["celery"]}, "must_have": [["beef"]], "must_not_have": ["celery"]},
   {"dish": "how do I fix my car", "expect": "rejected"},
   {"dish": "明天天气怎么样", "expect": "rejected"}
 ]

@@ -24,6 +24,7 @@
     { "id": "s1", "kind": "web", "title": "Example source 1", "url": "https://example.com/tomato-egg-1" },
     { "id": "s2", "kind": "web", "title": "Example source 2", "url": "https://example.com/tomato-egg-2" }
   ],
-  "usage": { "latency_ms": 14200, "input_tokens": 18400, "output_tokens": 2100, "search_requests": 3 },
+  "usage": { "latency_ms": 14200, "input_tokens": 18400, "output_tokens": 2100, "search_requests": 3,
+             "step_latency_ms": { "classify": 800, "web_research": 7900, "synthesize": 5400, "validate": 5 } },
   "error": null
 }

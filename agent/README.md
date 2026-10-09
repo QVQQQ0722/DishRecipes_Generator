@@ -31,7 +31,7 @@ For real runs, fill in the Foundry endpoint, key and two deployment names in `.e
 | --- | --- |
 | `python -m app.smoke` | M0: one `web_search` call prints a cited answer |
 | `python -m app.cli "番茄炒蛋" "Caesar salad"` | Day 2: run dish names, save `01_request` → `05_response` under `outputs/` |
-| `python -m evals.run_eval` | Day 5: 20 dishes + 2 non-food inputs; pass/fail, p50/p95 latency, tokens, searches |
+| `python -m evals.run_eval` | Day 5: 20 dishes, 8 profile cases (allergies, dislikes), 2 non-food inputs; pass/fail, p50/p95 latency, tokens, searches |
 
 ## Visualize the graph (LangGraph Studio)
 
@@ -74,4 +74,6 @@ evals/                    evals/        dishes.json, run_eval.py
 - `validate` sends a failed draft back to `synthesize` once; a second failure returns `VALIDATION_FAILED`
   with `recipe: null` rather than an unchecked recipe.
 - Non-food input returns `NOT_A_RECIPE` after `classify`, before any search.
+- `usage.step_latency_ms` maps each node to the milliseconds it took (summed if it ran twice, and including a
+  node that failed). It is an addition to the plan's v0 `usage` example.
 - The allergen check matches ingredient names against a short synonym list; it is a safety net, not a guarantee.

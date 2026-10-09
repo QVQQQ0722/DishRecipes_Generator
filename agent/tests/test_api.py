@@ -7,8 +7,8 @@ from fastapi.testclient import TestClient
 from app.api import main
 from app.graph.validate import check_recipe
 from app.llm import ModelFailure
-from app.schemas import GenerateRequest, GenerateResponse
-from evals.run_eval import CASES, score
+from app.schemas import GenerateRequest, GenerateResponse, Profile
+from evals.run_eval import CASES, label, score
 
 URL = "/v1/recipes:generate"
 KEY = {"X-Api-Key": "test-key"}
@@ -80,9 +80,15 @@ def test_missing_model_config_is_a_failed_response(client, monkeypatch):
 
 def test_eval_cases_and_scoring():
     cases = json.loads(CASES.read_text(encoding="utf-8"))
-    assert sum("must_have" in case for case in cases) == 20
+    assert sum("must_have" in case and "profile" not in case for case in cases) == 20
+    profiled = [case for case in cases if "profile" in case]
+    assert len(profiled) == 8 and all(case["must_not_have"] for case in profiled)
+    for case in profiled:
+        Profile(**case["profile"])
+    assert label(profiled[1]) == "Pad thai [allergies=peanut,shellfish; dislikes=cilantro]"
     succeeded = GenerateResponse.model_validate_json((EXAMPLES / "response_succeeded.json").read_text("utf-8"))
     assert score(cases[0], succeeded) == []
     assert score({"dish": "x", "must_have": [["tofu"]]}, succeeded) == ["missing ingredient: tofu"]
+    assert score({"dish": "x", "must_not_have": ["tomato", "peanut"]}, succeeded) == ["unwanted ingredient: tomato"]
     assert score({"dish": "x", "expect": "rejected"}, succeeded)[0].startswith("status succeeded")
     assert make_request().servings == 2

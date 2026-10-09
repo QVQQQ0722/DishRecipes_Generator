@@ -19,7 +19,7 @@ V1 目标 2026-10-31；周目标及 DONE/WIP/TODO 统一维护在 [MILESTONES](M
 - [ ] 与队友确认契约 v0；backend 调用 MOCK 接口并解析。
 - [ ] 建 Foundry 项目并部署 mini/nano 模型；跑 app.smoke 与 10 个菜名，核对 web_search 引用和结构化输出。
 - [ ] Dockerfile、Container Apps 内部入口 + Key Vault、OpenTelemetry 追踪。
-- [ ] 跑 20 题 eval，记录 p50/p95 延迟、tokens、搜索次数与单次成本。
+- [ ] 跑 eval（20 道菜 + 8 条过敏/忌口 profile + 2 条非菜谱），记录 p50/p95 延迟、tokens、搜索次数与单次成本。
 
 ## V1：两人 demo，功能与准确优先
 - [ ] W1.2：按[Agents API 评估](AGENTS_API_ASSESSMENT.md)先验证文本 → 图片 → 知识工具 → 契约/超时/取消；再注册可替换适配器与接 Android。评估已写，真实调用未做。

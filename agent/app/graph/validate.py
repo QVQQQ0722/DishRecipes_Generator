@@ -1,4 +1,9 @@
-"""Code checks after generation: unit sanity, citations, references, allergen match."""
+"""Code checks after generation: unit sanity, citations, references, allergen match.
+
+Allergens are checked in ingredient names and in step text and tips, because a step can call for
+something the ingredient list leaves out. Warnings are not checked: that is where substitutions
+are explained.
+"""
 
 import re
 
@@ -9,7 +14,9 @@ from app.schemas import ErrorInfo, GenerateRequest, Recipe, Source
 
 MAX_SYNTHESIZE_ATTEMPTS = 2  # first draft + one repair retry
 
-# Synonyms and common derivatives; matched as whole words against ingredient names.
+# Synonyms and common derivatives, including hidden ones (Worcestershire sauce is made with anchovies);
+# matched as whole words, plural "s"/"es" allowed. Multi-word sources such as fish sauce, anchovy paste,
+# oyster sauce and shrimp paste are caught by their first word.
 ALLERGEN_TERMS = {
     "peanut": ["peanut", "groundnut", "satay"],
     "tree nut": ["almond", "walnut", "cashew", "pecan", "pistachio", "hazelnut", "macadamia", "pine nut"],
@@ -17,20 +24,27 @@ ALLERGEN_TERMS = {
     "egg": ["egg", "mayonnaise", "meringue"],
     "soy": ["soy", "soybean", "tofu", "edamame", "miso", "tempeh"],
     "wheat": ["wheat", "flour", "breadcrumb", "panko", "seitan", "noodle", "pasta"],
-    "fish": ["fish", "anchovy", "salmon", "tuna", "cod", "bonito"],
+    "fish": ["fish", "anchovy", "anchovies", "worcestershire", "salmon", "tuna", "cod", "bonito"],
     "shellfish": ["shrimp", "prawn", "crab", "lobster", "clam", "mussel", "oyster", "scallop"],
     "sesame": ["sesame", "tahini"],
 }
 
 
 def allergen_hits(recipe: Recipe, allergies: list[str]) -> list[str]:
+    """One problem per mention, worded so the repair draft knows what to change."""
+    places = [(f"ingredient '{item.name}'", item.name) for item in recipe.ingredients]
+    places += [(f"step {step.order}", f"{step.instruction} {step.tip or ''}") for step in recipe.steps]
     hits = []
     for allergy in allergies:
         key = allergy.strip().lower()
         terms = ALLERGEN_TERMS.get(key, []) + [key]
         pattern = re.compile(r"\b(" + "|".join(re.escape(term) for term in terms) + r")(e?s)?\b")
-        hits += [f"ingredient '{item.name}' conflicts with allergy '{allergy}'"
-                 for item in recipe.ingredients if pattern.search(item.name.lower())]
+        for where, text in places:
+            found = pattern.search(text.lower())
+            if found:
+                hits.append(f"{where} mentions '{found.group(0)}', which conflicts with allergy '{allergy}'. "
+                            "Remove or replace it, and do not write the allergen in ingredient names, steps "
+                            "or tips; explain any substitution only in warnings")
     return hits
 
 

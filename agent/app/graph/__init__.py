@@ -50,19 +50,32 @@ def new_run_id() -> str:
 def stream_generate(request: GenerateRequest, llm: ModelClient,
                     trace: Trace | None = None) -> Iterator[tuple[str, object]]:
     """Yields ("progress", node_name) per finished node, then ("result", GenerateResponse)."""
-    started = time.monotonic()
+    started = time.perf_counter()
     if trace:
         trace("01_request.json", request.model_dump_json(indent=2))
     state: State = {"request": request, "usage": {}}
+    step_ms: dict[str, int] = {}
+    running, step_started = None, started
+
+    def close_step():
+        step_ms[running] = step_ms.get(running, 0) + round((time.perf_counter() - step_started) * 1000)
+
     try:
         for mode, payload in GRAPH.stream(state, {"configurable": {"llm": llm, "trace": trace}},
-                                          stream_mode=["updates", "values"]):
+                                          stream_mode=["tasks", "updates", "values"]):
             if mode == "values":
                 state = payload
+            elif mode == "tasks":
+                if "input" in payload:  # a node is starting; its finish arrives as an "updates" event
+                    running, step_started = payload["name"], time.perf_counter()
             else:
                 for node in payload:
+                    close_step()
+                    running = None
                     yield "progress", node
     except ModelFailure as exc:
+        if running:
+            close_step()
         state = {**state, "error": ErrorInfo(code=exc.code, message=exc.message)}
 
     error = state.get("error")
@@ -78,7 +91,8 @@ def stream_generate(request: GenerateRequest, llm: ModelClient,
         classification=Classification(type=found.type, normalized_name=found.normalized_name) if found else None,
         recipe=recipe,
         sources=[] if error else state["sources"],
-        usage=Usage(latency_ms=round((time.monotonic() - started) * 1000), **state.get("usage", {})),
+        usage=Usage(latency_ms=round((time.perf_counter() - started) * 1000), step_latency_ms=step_ms,
+                    **state.get("usage", {})),
         error=error,
     )
     if trace:
